@@ -15,14 +15,17 @@ export default {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'Source Sans Pro',
+  				'Space Grotesk',
   				'ui-sans-serif',
   				'system-ui',
-  				'sans-serif',
-  				'Apple Color Emoji',
-  				'Segoe UI Emoji',
-  				'Segoe UI Symbol',
-  				'Noto Color Emoji'
+  				'-apple-system',
+  				'BlinkMacSystemFont',
+  				'Segoe UI',
+  				'Roboto',
+  				'Helvetica Neue',
+  				'Arial',
+  				'Noto Sans',
+  				'sans-serif'
   			],
   			display: [
   				'Space Grotesk',
@@ -30,7 +33,7 @@ export default {
   				'sans-serif'
   			],
   			serif: [
-  				'Source Serif Pro',
+  				'Lora',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
@@ -39,7 +42,7 @@ export default {
   				'serif'
   			],
   			mono: [
-  				'Source Code Pro',
+  				'Space Mono',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
@@ -197,7 +200,7 @@ export default {
   					transform: 'translateY(0)'
   				}
   			},
-  			'float': {
+  			float: {
   				'0%, 100%': {
   					transform: 'translateY(0)'
   				},
@@ -215,7 +218,7 @@ export default {
   					boxShadow: '0 0 40px hsl(43 100% 50% / 0.5)'
   				}
   			},
-  			'shimmer': {
+  			shimmer: {
   				'0%': {
   					backgroundPosition: '-200% 0'
   				},
@@ -271,9 +274,9 @@ export default {
   			'fade-in-right': 'fade-in-right 0.8s ease-out forwards',
   			'scale-in': 'scale-in 0.5s ease-out forwards',
   			'slide-up': 'slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-  			'float': 'float 3s ease-in-out infinite',
+  			float: 'float 3s ease-in-out infinite',
   			'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-  			'shimmer': 'shimmer 2s linear infinite',
+  			shimmer: 'shimmer 2s linear infinite',
   			'rotate-slow': 'rotate-slow 20s linear infinite',
   			'count-up': 'count-up 0.5s ease-out forwards',
   			'border-glow': 'border-glow 2s ease-in-out infinite',
@@ -286,6 +289,15 @@ export default {
   			'gold-gradient': 'linear-gradient(135deg, hsl(43 100% 50%) 0%, hsl(35 100% 45%) 100%)',
   			'teal-gradient': 'linear-gradient(135deg, hsl(189 100% 50%) 0%, hsl(200 100% 40%) 100%)',
   			'shimmer-gradient': 'linear-gradient(90deg, transparent, hsl(43 100% 50% / 0.1), transparent)'
+  		},
+  		boxShadow: {
+  			'2xs': 'var(--shadow-2xs)',
+  			xs: 'var(--shadow-xs)',
+  			sm: 'var(--shadow-sm)',
+  			md: 'var(--shadow-md)',
+  			lg: 'var(--shadow-lg)',
+  			xl: 'var(--shadow-xl)',
+  			'2xl': 'var(--shadow-2xl)'
   		}
   	}
   },
