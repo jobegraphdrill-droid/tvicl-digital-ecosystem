@@ -74,6 +74,7 @@ export default {
         },
         beige: "hsl(var(--beige))",
         cream: "hsl(var(--cream))",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
