@@ -2,32 +2,36 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { 
-  Lightbulb, 
-  Thermometer, 
-  Music, 
-  DoorOpen, 
-  Shield, 
-  Tv,
+  Droplets,
+  Sun,
+  CloudRain,
+  Thermometer,
+  Palette,
+  Sofa,
+  Wind,
+  Lock,
   Users,
   Zap
 } from "lucide-react";
 
 const controls = [
-  { id: "lights", icon: Lightbulb, label: "Lights", active: true },
-  { id: "ac", icon: Thermometer, label: "Climate", active: false },
-  { id: "music", icon: Music, label: "Music", active: true },
-  { id: "doors", icon: DoorOpen, label: "Doors", active: false },
-  { id: "security", icon: Shield, label: "Security", active: true },
-  { id: "tv", icon: Tv, label: "Media", active: false },
+  { id: "irrigation", icon: Droplets, label: "Automated Irrigation", startTime: 7, endTime: 13 },
+  { id: "blinds", icon: Sun, label: "Open Blinds", startTime: 20, endTime: 36 },
+  { id: "rain", icon: CloudRain, label: "Detect Rain Close Windows", startTime: 46, endTime: 55 },
+  { id: "climate-blinds", icon: Thermometer, label: "Intelligence Blinds Control", startTime: 55, endTime: 62 },
+  { id: "color", icon: Palette, label: "Intelligence Color Adjustment", startTime: 64, endTime: 88 },
+  { id: "scene", icon: Sofa, label: "Color & Scene Adjustment", startTime: 88, endTime: 90 },
+  { id: "hvac", icon: Wind, label: "Air-conditioning & Heat", startTime: 90, endTime: 92 },
+  { id: "lock", icon: Lock, label: "Smart Lock & Motion Sensor", startTime: 98, endTime: 104 },
 ];
 
 export const SmartHomeSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeControls, setActiveControls] = useState<Set<string>>(
-    new Set(controls.filter((c) => c.active).map((c) => c.id))
-  );
+  const [activeControl, setActiveControl] = useState<string | null>(null);
   const [viewers, setViewers] = useState(12);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<YT.Player | null>(null);
+  const [playerReady, setPlayerReady] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,6 +50,49 @@ export const SmartHomeSection = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Load YouTube IFrame API
+  useEffect(() => {
+    if (window.YT && window.YT.Player) {
+      initializePlayer();
+      return;
+    }
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    (window as any).onYouTubeIframeAPIReady = () => {
+      initializePlayer();
+    };
+
+    return () => {
+      (window as any).onYouTubeIframeAPIReady = null;
+    };
+  }, []);
+
+  const initializePlayer = () => {
+    if (playerRef.current) return;
+    
+    playerRef.current = new window.YT.Player("youtube-player", {
+      height: "100%",
+      width: "100%",
+      videoId: "dftKArsWaCs",
+      playerVars: {
+        autoplay: 0,
+        controls: 1,
+        modestbranding: 1,
+        rel: 0,
+        showinfo: 0,
+      },
+      events: {
+        onReady: () => {
+          setPlayerReady(true);
+        },
+      },
+    });
+  };
+
   // Simulate viewer count changes
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,14 +101,12 @@ export const SmartHomeSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const toggleControl = (id: string) => {
-    const newControls = new Set(activeControls);
-    if (newControls.has(id)) {
-      newControls.delete(id);
-    } else {
-      newControls.add(id);
+  const playSegment = (controlId: string, startTime: number) => {
+    setActiveControl(controlId);
+    if (playerRef.current && playerReady) {
+      playerRef.current.seekTo(startTime, true);
+      playerRef.current.playVideo();
     }
-    setActiveControls(newControls);
   };
 
   return (
@@ -110,7 +155,7 @@ export const SmartHomeSection = () => {
             style={{ animationDelay: "0.2s" }}
           >
             Experience our smart home technology firsthand. 
-            Toggle the controls below and watch the demo home respond in real-time.
+            Click any control below to see that feature in action.
           </p>
         </div>
 
@@ -124,105 +169,19 @@ export const SmartHomeSection = () => {
         >
           {/* Video Feed */}
           <div className="lg:col-span-3 relative rounded-3xl overflow-hidden glass">
-            {/* Simulated Video Feed */}
+            {/* YouTube Video */}
             <div className="aspect-video relative bg-gradient-to-br from-muted to-background">
-              {/* Room Visualization */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-full max-w-lg">
-                  {/* Room Outline */}
-                  <div className="aspect-[4/3] border-2 border-dashed border-muted-foreground/30 rounded-xl p-8 relative">
-                    {/* Room Elements */}
-                    <div className="absolute inset-4 flex flex-col justify-between">
-                      {/* Top Row - Lights */}
-                      <div className="flex justify-around">
-                        {[1, 2, 3].map((i) => (
-                          <div
-                            key={i}
-                            className={cn(
-                              "w-8 h-8 rounded-full transition-all duration-500",
-                              activeControls.has("lights")
-                                ? "bg-secondary shadow-lg shadow-secondary/50"
-                                : "bg-muted"
-                            )}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Middle - TV & AC */}
-                      <div className="flex justify-between items-center">
-                        <div
-                          className={cn(
-                            "w-20 h-14 rounded-lg transition-all duration-500",
-                            activeControls.has("tv")
-                              ? "bg-accent/50 border-2 border-accent"
-                              : "bg-muted border-2 border-transparent"
-                          )}
-                        />
-                        <div
-                          className={cn(
-                            "w-16 h-8 rounded transition-all duration-500 flex items-center justify-center",
-                            activeControls.has("ac")
-                              ? "bg-accent/50"
-                              : "bg-muted"
-                          )}
-                        >
-                          {activeControls.has("ac") && (
-                            <span className="text-xs text-foreground">24°C</span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Bottom - Door */}
-                      <div className="flex justify-center">
-                        <div
-                          className={cn(
-                            "w-12 h-16 rounded-t-lg border-2 transition-all duration-500",
-                            activeControls.has("doors")
-                              ? "border-green-500 bg-green-500/20"
-                              : "border-red-500 bg-red-500/20"
-                          )}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Security Indicator */}
-                    <div
-                      className={cn(
-                        "absolute top-2 right-2 w-3 h-3 rounded-full transition-all duration-500",
-                        activeControls.has("security")
-                          ? "bg-green-500 animate-pulse"
-                          : "bg-red-500"
-                      )}
-                    />
-
-                    {/* Music Waves */}
-                    {activeControls.has("music") && (
-                      <div className="absolute bottom-2 left-2 flex gap-1">
-                        {[1, 2, 3, 4].map((i) => (
-                          <div
-                            key={i}
-                            className="w-1 bg-secondary rounded-full animate-pulse"
-                            style={{
-                              height: `${8 + Math.random() * 16}px`,
-                              animationDelay: `${i * 0.1}s`,
-                            }}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <div id="youtube-player" className="absolute inset-0 w-full h-full" />
 
               {/* Overlay Info */}
-              <div className="absolute top-4 left-4 flex items-center gap-2">
+              <div className="absolute top-4 left-4 flex items-center gap-2 z-10 pointer-events-none">
                 <span className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
                 <span className="text-sm text-foreground font-medium glass px-3 py-1 rounded-full">
                   LIVE Demo Home
                 </span>
               </div>
 
-              <div className="absolute top-4 right-4 flex items-center gap-2 glass px-3 py-1 rounded-full">
+              <div className="absolute top-4 right-4 flex items-center gap-2 glass px-3 py-1 rounded-full z-10 pointer-events-none">
                 <Users className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm text-foreground font-medium">
                   {viewers} watching
@@ -238,45 +197,43 @@ export const SmartHomeSection = () => {
                 Control Panel
               </h3>
               <p className="text-sm text-muted-foreground mb-6">
-                Tap any control to toggle it on/off and see the demo home respond.
+                Tap any control to see that smart home feature in action.
               </p>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 max-h-[400px] overflow-y-auto pr-2">
                 {controls.map((control) => (
                   <button
                     key={control.id}
-                    onClick={() => toggleControl(control.id)}
+                    onClick={() => playSegment(control.id, control.startTime)}
                     className={cn(
-                      "flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300",
-                      activeControls.has(control.id)
+                      "flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 text-left",
+                      activeControl === control.id
                         ? "bg-secondary/20 border-secondary text-secondary glow-gold"
                         : "bg-muted/30 border-border/50 text-muted-foreground hover:bg-muted/50"
                     )}
                   >
                     <control.icon
                       className={cn(
-                        "w-6 h-6 transition-colors",
-                        activeControls.has(control.id) && "text-secondary"
+                        "w-6 h-6 flex-shrink-0 transition-colors",
+                        activeControl === control.id && "text-secondary"
                       )}
                     />
-                    <span className="text-sm font-medium">{control.label}</span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm font-medium block truncate">
+                        {control.label}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {control.startTime}s - {control.endTime}s
+                      </span>
+                    </div>
                     <div
                       className={cn(
-                        "w-8 h-4 rounded-full relative transition-colors",
-                        activeControls.has(control.id)
-                          ? "bg-secondary"
+                        "w-3 h-3 rounded-full transition-colors flex-shrink-0",
+                        activeControl === control.id
+                          ? "bg-secondary animate-pulse"
                           : "bg-muted"
                       )}
-                    >
-                      <div
-                        className={cn(
-                          "absolute top-0.5 w-3 h-3 rounded-full bg-foreground transition-all",
-                          activeControls.has(control.id)
-                            ? "left-4"
-                            : "left-0.5"
-                        )}
-                      />
-                    </div>
+                    />
                   </button>
                 ))}
               </div>
@@ -285,16 +242,16 @@ export const SmartHomeSection = () => {
             {/* Status */}
             <div className="glass rounded-2xl p-6">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-muted-foreground">Active Controls</span>
+                <span className="text-sm text-muted-foreground">Smart Features</span>
                 <span className="font-display font-semibold text-secondary">
-                  {activeControls.size}/{controls.length}
+                  {controls.length} Available
                 </span>
               </div>
               <div className="h-2 bg-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gold-gradient transition-all duration-500"
                   style={{
-                    width: `${(activeControls.size / controls.length) * 100}%`,
+                    width: activeControl ? "100%" : "0%",
                   }}
                 />
               </div>
