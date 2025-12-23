@@ -146,6 +146,11 @@ export default {
           "50%": { backgroundPosition: "100% 50%" },
           "100%": { backgroundPosition: "0% 50%" },
         },
+        "ken-burns": {
+          "0%": { transform: "scale(1) translate(0, 0)" },
+          "50%": { transform: "scale(1.1) translate(-1%, -1%)" },
+          "100%": { transform: "scale(1.05) translate(1%, 0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -164,6 +169,7 @@ export default {
         "count-up": "count-up 0.5s ease-out forwards",
         "border-glow": "border-glow 2s ease-in-out infinite",
         "gradient-shift": "gradient-shift 3s ease infinite",
+        "ken-burns": "ken-burns 8s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
