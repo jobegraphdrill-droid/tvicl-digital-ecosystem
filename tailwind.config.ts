@@ -61,19 +61,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        navy: {
-          deep: "hsl(var(--navy-deep))",
-          light: "hsl(var(--navy-light))",
-        },
+        espresso: "hsl(var(--espresso))",
+        chocolate: "hsl(var(--chocolate))",
+        cocoa: "hsl(var(--cocoa))",
         gold: {
           DEFAULT: "hsl(var(--gold))",
-          glow: "hsl(var(--gold-glow))",
+          hover: "hsl(var(--gold-hover))",
         },
-        teal: {
-          DEFAULT: "hsl(var(--teal))",
-          glow: "hsl(var(--teal-glow))",
+        bronze: {
+          DEFAULT: "hsl(var(--bronze))",
+          glow: "hsl(var(--bronze-glow))",
         },
-      },
+        beige: "hsl(var(--beige))",
+        cream: "hsl(var(--cream))",
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -121,8 +121,8 @@ export default {
           "50%": { transform: "translateY(-10px)" },
         },
         "pulse-glow": {
-          "0%, 100%": { opacity: "1", boxShadow: "0 0 20px hsl(43 100% 50% / 0.3)" },
-          "50%": { opacity: "0.8", boxShadow: "0 0 40px hsl(43 100% 50% / 0.5)" },
+          "0%, 100%": { opacity: "1", boxShadow: "0 0 20px hsl(41 62% 56% / 0.3)" },
+          "50%": { opacity: "0.8", boxShadow: "0 0 40px hsl(41 62% 56% / 0.5)" },
         },
         "shimmer": {
           "0%": { backgroundPosition: "-200% 0" },
@@ -137,8 +137,8 @@ export default {
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         "border-glow": {
-          "0%, 100%": { borderColor: "hsl(43 100% 50% / 0.5)" },
-          "50%": { borderColor: "hsl(43 100% 50% / 1)" },
+          "0%, 100%": { borderColor: "hsl(41 62% 56% / 0.5)" },
+          "50%": { borderColor: "hsl(41 62% 56% / 1)" },
         },
         "gradient-shift": {
           "0%": { backgroundPosition: "0% 50%" },
@@ -166,11 +166,11 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "hero-gradient": "linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 47% 15%) 50%, hsl(222 47% 11%) 100%)",
-        "card-gradient": "linear-gradient(145deg, hsl(222 47% 16%) 0%, hsl(222 47% 12%) 100%)",
-        "gold-gradient": "linear-gradient(135deg, hsl(43 100% 50%) 0%, hsl(35 100% 45%) 100%)",
-        "teal-gradient": "linear-gradient(135deg, hsl(189 100% 50%) 0%, hsl(200 100% 40%) 100%)",
-        "shimmer-gradient": "linear-gradient(90deg, transparent, hsl(43 100% 50% / 0.1), transparent)",
+        "hero-gradient": "linear-gradient(180deg, hsl(16 38% 6%) 0%, hsl(16 30% 14%) 50%, hsl(16 38% 8%) 100%)",
+        "card-gradient": "linear-gradient(145deg, hsl(16 27% 20%) 0%, hsl(16 27% 16%) 100%)",
+        "gold-gradient": "linear-gradient(135deg, hsl(41 62% 56%) 0%, hsl(38 51% 47%) 100%)",
+        "bronze-gradient": "linear-gradient(135deg, hsl(32 54% 40%) 0%, hsl(28 50% 35%) 100%)",
+        "shimmer-gradient": "linear-gradient(90deg, transparent, hsl(41 62% 56% / 0.1), transparent)",
       },
     },
   },
