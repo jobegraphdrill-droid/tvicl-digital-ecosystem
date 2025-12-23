@@ -162,7 +162,7 @@ export const SmartHomeSection = () => {
                           className={cn(
                             "w-16 h-8 rounded transition-all duration-500 flex items-center justify-center",
                             activeControls.has("ac")
-                              ? "bg-blue-500/50"
+                              ? "bg-accent/50"
                               : "bg-muted"
                           )}
                         >
