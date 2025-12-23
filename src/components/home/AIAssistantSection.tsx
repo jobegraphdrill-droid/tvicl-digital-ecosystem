@@ -91,7 +91,7 @@ export const AIAssistantSection = () => {
             >
               Questions?
               <br />
-              <span className="text-gradient-teal">Ask Our AI Expert</span>
+              <span className="text-gradient-bronze">Ask Our AI Expert</span>
             </h2>
 
             <p
@@ -130,7 +130,7 @@ export const AIAssistantSection = () => {
             </div>
 
             <Button
-              variant="teal"
+              variant="bronze"
               size="lg"
               className={cn(
                 "group opacity-0",
@@ -222,7 +222,7 @@ export const AIAssistantSection = () => {
                   placeholder="Type your question..."
                   className="flex-grow px-4 py-3 rounded-xl bg-background border border-border/50 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/50 transition-colors"
                 />
-                <Button variant="teal" size="icon" className="rounded-xl flex-shrink-0">
+                <Button variant="bronze" size="icon" className="rounded-xl flex-shrink-0">
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </div>

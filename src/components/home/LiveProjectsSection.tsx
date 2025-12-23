@@ -98,7 +98,7 @@ export const LiveProjectsSection = () => {
             >
               Watch Dreams
               <br />
-              <span className="text-gradient-teal">Come Alive</span>
+              <span className="text-gradient-bronze">Come Alive</span>
             </h2>
 
             {/* Description */}
@@ -139,7 +139,7 @@ export const LiveProjectsSection = () => {
 
             {/* CTA */}
             <Button
-              variant="teal"
+              variant="bronze"
               size="lg"
               className={cn(
                 "group opacity-0",
@@ -217,7 +217,7 @@ export const LiveProjectsSection = () => {
                       </div>
                       <div className="h-2 bg-muted/50 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-teal-gradient rounded-full transition-all duration-1000"
+                          className="h-full bg-bronze-gradient rounded-full transition-all duration-1000"
                           style={{ width: isVisible ? `${project.progress}%` : "0%" }}
                         />
                       </div>

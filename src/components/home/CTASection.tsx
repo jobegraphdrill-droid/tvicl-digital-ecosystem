@@ -108,7 +108,7 @@ export const CTASection = () => {
               <li>✓ Site visit scheduling</li>
               <li>✓ Detailed project planning</li>
             </ul>
-            <Button variant="teal" size="lg" className="w-full group/btn">
+            <Button variant="bronze" size="lg" className="w-full group/btn">
               <span>Schedule Now</span>
               <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
             </Button>
