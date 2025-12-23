@@ -3,9 +3,43 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const rotatingImages = [
+  {
+    url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    label: "Luxury Exterior",
+    type: "exterior"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
+    label: "Modern Interior",
+    type: "interior"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
+    label: "Contemporary Villa",
+    type: "exterior"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",
+    label: "Elegant Living Room",
+    type: "interior"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+    label: "Premium Estate",
+    type: "exterior"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    label: "Smart Kitchen",
+    type: "interior"
+  },
+];
+
 export const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,6 +59,14 @@ export const HeroSection = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Auto-rotate images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % rotatingImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToContent = () => {
     window.scrollTo({
       top: window.innerHeight,
@@ -37,6 +79,28 @@ export const HeroSection = () => {
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient"
     >
+      {/* Rotating Background Images */}
+      <div className="absolute inset-0 overflow-hidden">
+        {rotatingImages.map((image, index) => (
+          <div
+            key={image.url}
+            className={cn(
+              "absolute inset-0 transition-all duration-1000 ease-in-out",
+              index === currentImageIndex 
+                ? "opacity-20 scale-100" 
+                : "opacity-0 scale-110"
+            )}
+            style={{
+              backgroundImage: `url(${image.url})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        ))}
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+      </div>
+
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Grid Pattern */}
@@ -88,6 +152,131 @@ export const HeroSection = () => {
           className="absolute bottom-1/3 left-1/4 w-24 h-24 border border-accent/20 rounded-full animate-rotate-slow"
           style={{ animationDuration: "20s", animationDirection: "reverse" }}
         />
+      </div>
+
+      {/* Rotating 360 Image Showcase - Left Side */}
+      <div 
+        className={cn(
+          "absolute left-4 md:left-8 lg:left-16 top-1/2 -translate-y-1/2 hidden md:block opacity-0",
+          isVisible && "animate-fade-in-left"
+        )}
+        style={{ animationDelay: "1.4s" }}
+      >
+        <div className="relative w-48 lg:w-64 h-48 lg:h-64">
+          {/* Rotating ring */}
+          <div className="absolute inset-0 rounded-full border-2 border-dashed border-secondary/30 animate-rotate-slow" />
+          
+          {/* Image container */}
+          <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-secondary/50 shadow-lg shadow-secondary/20">
+            {rotatingImages.filter(img => img.type === "exterior").map((image, index) => (
+              <div
+                key={image.url}
+                className={cn(
+                  "absolute inset-0 transition-opacity duration-1000",
+                  rotatingImages[currentImageIndex].url === image.url
+                    ? "opacity-100"
+                    : "opacity-0"
+                )}
+                style={{
+                  backgroundImage: `url(${image.url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            ))}
+            {/* Fallback if current isn't exterior */}
+            {rotatingImages[currentImageIndex].type !== "exterior" && (
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${rotatingImages.find(img => img.type === "exterior")?.url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            )}
+          </div>
+          
+          {/* Label */}
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+            <span className="text-xs text-muted-foreground uppercase tracking-wider">Exterior</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Rotating 360 Image Showcase - Right Side */}
+      <div 
+        className={cn(
+          "absolute right-4 md:right-8 lg:right-16 top-1/2 -translate-y-1/2 hidden md:block opacity-0",
+          isVisible && "animate-fade-in-right"
+        )}
+        style={{ animationDelay: "1.6s" }}
+      >
+        <div className="relative w-48 lg:w-64 h-48 lg:h-64">
+          {/* Rotating ring - reverse direction */}
+          <div 
+            className="absolute inset-0 rounded-full border-2 border-dashed border-accent/30 animate-rotate-slow"
+            style={{ animationDirection: "reverse" }}
+          />
+          
+          {/* Image container */}
+          <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-accent/50 shadow-lg shadow-accent/20">
+            {rotatingImages.filter(img => img.type === "interior").map((image, index) => (
+              <div
+                key={image.url}
+                className={cn(
+                  "absolute inset-0 transition-opacity duration-1000",
+                  rotatingImages[currentImageIndex].url === image.url
+                    ? "opacity-100"
+                    : "opacity-0"
+                )}
+                style={{
+                  backgroundImage: `url(${image.url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            ))}
+            {/* Fallback if current isn't interior */}
+            {rotatingImages[currentImageIndex].type !== "interior" && (
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${rotatingImages.find(img => img.type === "interior")?.url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+            )}
+          </div>
+          
+          {/* Label */}
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+            <span className="text-xs text-muted-foreground uppercase tracking-wider">Interior</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Image Indicator Dots */}
+      <div 
+        className={cn(
+          "absolute bottom-24 left-1/2 -translate-x-1/2 flex items-center gap-2 opacity-0",
+          isVisible && "animate-fade-in"
+        )}
+        style={{ animationDelay: "1.8s" }}
+      >
+        {rotatingImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentImageIndex(index)}
+            className={cn(
+              "w-2 h-2 rounded-full transition-all duration-300",
+              index === currentImageIndex 
+                ? "bg-secondary w-6" 
+                : "bg-muted-foreground/50 hover:bg-muted-foreground"
+            )}
+          />
+        ))}
       </div>
 
       {/* Main Content */}
